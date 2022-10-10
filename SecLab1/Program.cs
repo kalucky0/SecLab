@@ -4,11 +4,40 @@ using System.Security.Cryptography;
 
 namespace SecLab1;
 
-public class Program
+public static class Program
 {
     private static void Main()
     {
-        AesMain();
+        try
+        {
+            // DesMain();
+            // AesMain();
+            Rc2Main();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    private static void Rc2Main()
+    {
+        byte[] key;
+        byte[] iv;
+
+        using (var rc2 = RC2.Create())
+        {
+            key = rc2.Key;
+            iv = rc2.IV;
+        }
+
+        var input = Console.ReadLine();
+
+        byte[] encrypted = Rc2.EncryptText(input, key, iv);
+        string plaintext = Rc2.DecryptText(encrypted, key, iv);
+
+        Console.WriteLine(plaintext);
+        Console.WriteLine(encrypted.Aggregate("", (s, b) => s + b.ToString("X2") + " "));
     }
 
     private static void AesMain()
@@ -16,7 +45,7 @@ public class Program
         var key = new AesCryptoServiceProvider();
 
         var input = Console.ReadLine();
-        
+
         byte[] encrypted = Aes.EncryptStringToBytes(input, key.Key, key.IV);
         string plaintext = Aes.DecryptStringFromBytes(encrypted, key.Key, key.IV);
 
@@ -27,12 +56,12 @@ public class Program
     private static void DesMain()
     {
         DESCryptoServiceProvider key = new DESCryptoServiceProvider();
-        
+
         var input = Console.ReadLine();
-        
+
         byte[] buffer = CryptoMemoryStream.Encrypt(input, key);
         string plaintext = CryptoMemoryStream.Decrypt(buffer, key);
-        
+
         Console.WriteLine(plaintext);
         Console.WriteLine(buffer.Aggregate("", (s, b) => s + b.ToString("X2") + " "));
     }
