@@ -13,15 +13,15 @@ public class Program
 
     private static void AesMain()
     {
-        using var myAes = new AesCryptoServiceProvider();
+        var key = new AesCryptoServiceProvider();
 
         var input = Console.ReadLine();
+        
+        byte[] encrypted = Aes.EncryptStringToBytes(input, key.Key, key.IV);
+        string plaintext = Aes.DecryptStringFromBytes(encrypted, key.Key, key.IV);
 
-        byte[] encrypted = Aes.EncryptStringToBytes(input, myAes.Key, myAes.IV);
-        string plaintext = Aes.DecryptStringFromBytes(encrypted, myAes.Key, myAes.IV);
-
-        Console.WriteLine(input);
         Console.WriteLine(plaintext);
+        Console.WriteLine(encrypted.Aggregate("", (s, b) => s + b.ToString("X2") + " "));
     }
 
     private static void DesMain()
