@@ -36,8 +36,7 @@ public static class Program
         byte[] encrypted = Rc2.EncryptText(input, key, iv);
         string plaintext = Rc2.DecryptText(encrypted, key, iv);
 
-        Console.WriteLine(plaintext);
-        Console.WriteLine(encrypted.Aggregate("", (s, b) => s + b.ToString("X2") + " "));
+        PrintResults(encrypted, plaintext);
     }
 
     private static void AesMain()
@@ -49,8 +48,7 @@ public static class Program
         byte[] encrypted = Aes.EncryptStringToBytes(input, key.Key, key.IV);
         string plaintext = Aes.DecryptStringFromBytes(encrypted, key.Key, key.IV);
 
-        Console.WriteLine(plaintext);
-        Console.WriteLine(encrypted.Aggregate("", (s, b) => s + b.ToString("X2") + " "));
+        PrintResults(encrypted, plaintext);
     }
 
     private static void DesMain()
@@ -62,7 +60,14 @@ public static class Program
         byte[] buffer = CryptoMemoryStream.Encrypt(input, key);
         string plaintext = CryptoMemoryStream.Decrypt(buffer, key);
 
-        Console.WriteLine(plaintext);
+        PrintResults(buffer, plaintext);
+    }
+    
+    private static void PrintResults(byte[] buffer, string plaintext)
+    {
+        Console.WriteLine("\nEncrypted:");
         Console.WriteLine(buffer.Aggregate("", (s, b) => s + b.ToString("X2") + " "));
+        Console.WriteLine("\nDecrypted:");
+        Console.WriteLine(plaintext);
     }
 }
