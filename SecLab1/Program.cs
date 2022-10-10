@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Security.Cryptography;
+using System.Linq;
 
-namespace SecLab1
+public class Program
 {
-    class Program
+    private static void Main()
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        DESCryptoServiceProvider key = new DESCryptoServiceProvider();
+
+        var input = Console.ReadLine();
+        
+        byte[] buffer = CryptoMemoryStream.Encrypt(input, key);
+        string plaintext = CryptoMemoryStream.Decrypt(buffer, key);
+        
+        Console.WriteLine(plaintext);
+        Console.WriteLine(buffer.Aggregate("", (s, b) => s + b.ToString("X2") + " "));
     }
 }
