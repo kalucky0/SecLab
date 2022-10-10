@@ -1,39 +1,37 @@
-using System;
 using System.IO;
 using System.Security.Cryptography;
 
-internal sealed class CryptoMemoryStream
-{
-    internal static void Run()
-    {
-        DESCryptoServiceProvider key = new DESCryptoServiceProvider();
-        byte[] buffer = Encrypt("Tekst", key);
-        string plaintext = Decrypt(buffer, key);
-        Console.WriteLine(plaintext);
-    }
+namespace SecLab1;
 
-    public static byte[] Encrypt(string PlainText, SymmetricAlgorithm key)
+internal static class CryptoMemoryStream
+{
+    public static byte[] Encrypt(string plainText, SymmetricAlgorithm key)
     {
-        MemoryStream ms = new MemoryStream();
-        CryptoStream encStream = new CryptoStream(ms, key.CreateEncryptor(), CryptoStreamMode.Write);
-        StreamWriter sw = new StreamWriter(encStream);
-        sw.WriteLine(PlainText);
+        var ms = new MemoryStream();
+        var encStream = new CryptoStream(ms, key.CreateEncryptor(), CryptoStreamMode.Write);
+        var sw = new StreamWriter(encStream);
+
+        byte[] buffer = ms.ToArray();
+
         sw.Close();
         encStream.Close();
-        byte[] buffer = ms.ToArray();
         ms.Close();
+
         return buffer;
     }
 
-    public static string Decrypt(byte[] CypherText, SymmetricAlgorithm key)
+    public static string Decrypt(byte[] cypherText, SymmetricAlgorithm key)
     {
-        MemoryStream ms = new MemoryStream(CypherText);
-        CryptoStream encStream = new CryptoStream(ms, key.CreateDecryptor(), CryptoStreamMode.Read);
-        StreamReader sr = new StreamReader(encStream);
-        string val = sr.ReadLine();
+        var ms = new MemoryStream(cypherText);
+        var encStream = new CryptoStream(ms, key.CreateDecryptor(), CryptoStreamMode.Read);
+        var sr = new StreamReader(encStream);
+
+        string value = sr.ReadLine();
+
         sr.Close();
         encStream.Close();
         ms.Close();
-        return val;
+
+        return value;
     }
 }

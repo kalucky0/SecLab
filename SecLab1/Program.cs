@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Security.Cryptography;
 using System.Linq;
+using System.Security.Cryptography;
+
+namespace SecLab1;
 
 public class Program
 {
     private static void Main()
     {
         DESCryptoServiceProvider key = new DESCryptoServiceProvider();
-
+        
         var input = Console.ReadLine();
         
         byte[] buffer = CryptoMemoryStream.Encrypt(input, key);
