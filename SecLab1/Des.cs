@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Security.Cryptography;
 
@@ -5,6 +6,18 @@ namespace SecLab1;
 
 internal static class Des
 {
+    public static void Run()
+    {
+        DESCryptoServiceProvider key = new DESCryptoServiceProvider();
+
+        var input = Console.ReadLine();
+
+        byte[] buffer = CryptoMemoryStream.Encrypt(input, key);
+        string plaintext = CryptoMemoryStream.Decrypt(buffer, key);
+
+        Program.PrintResults(buffer, plaintext);
+    }
+    
     /// <example>
     /// <code>
     /// byte[] key = new byte[8] { 1, 2, 3, 4, 5, 6, 7, 8 };

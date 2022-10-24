@@ -6,6 +6,18 @@ namespace SecLab1;
 
 internal static class Rsa
 {
+    public static void Run()
+    {
+        DESCryptoServiceProvider key = new DESCryptoServiceProvider();
+
+        var input = Console.ReadLine();
+
+        byte[] buffer = CryptoMemoryStream.Encrypt(input, key);
+        string plaintext = CryptoMemoryStream.Decrypt(buffer, key);
+
+        Program.PrintResults(buffer, plaintext);
+    }
+    
     public static string GetKeyString(RSAParameters publicKey)
     {
         var stringWriter = new System.IO.StringWriter();

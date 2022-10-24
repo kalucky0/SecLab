@@ -1,11 +1,24 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography.Xml;
 using System.Security.Cryptography;
 
 namespace SecLab1;
 
 internal static class Aes
 {
+    internal static void Run()
+    {
+        var key = new AesCryptoServiceProvider();
+
+        var input = Console.ReadLine();
+
+        byte[] encrypted = Aes.EncryptStringToBytes(input, key.Key, key.IV);
+        string plaintext = Aes.DecryptStringFromBytes(encrypted, key.Key, key.IV);
+
+        Program.PrintResults(encrypted, plaintext);
+    }
+    
     internal static byte[] EncryptStringToBytes(string plainText, byte[] key, byte[] IV)
     {
         if (plainText is not { Length: > 0 })
