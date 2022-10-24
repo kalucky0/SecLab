@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography.Xml;
 using System.Security.Cryptography;
 
 namespace SecLab;
@@ -19,18 +18,18 @@ internal static class Aes
         Program.PrintResults(encrypted, plaintext);
     }
     
-    internal static byte[] EncryptStringToBytes(string plainText, byte[] key, byte[] IV)
+    private static byte[] EncryptStringToBytes(string plainText, byte[] key, byte[] iv)
     {
         if (plainText is not { Length: > 0 })
             throw new ArgumentNullException(nameof(plainText));
         if (key is not { Length: > 0 })
             throw new ArgumentNullException(nameof(key));
-        if (IV is not { Length: > 0 })
-            throw new ArgumentNullException(nameof(IV));
+        if (iv is not { Length: > 0 })
+            throw new ArgumentNullException(nameof(iv));
 
         using var aesAlg = new AesCryptoServiceProvider();
         aesAlg.Key = key;
-        aesAlg.IV = IV;
+        aesAlg.IV = iv;
 
         var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
@@ -46,20 +45,18 @@ internal static class Aes
         return encrypted;
     }
 
-    internal static string DecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] IV)
+    private static string DecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] iv)
     {
         if (cipherText is not { Length: > 0 })
             throw new ArgumentNullException(nameof(cipherText));
         if (key is not { Length: > 0 })
             throw new ArgumentNullException(nameof(key));
-        if (IV is not { Length: > 0 })
-            throw new ArgumentNullException(nameof(IV));
-
-        string plaintext = null;
+        if (iv is not { Length: > 0 })
+            throw new ArgumentNullException(nameof(iv));
 
         using var aesAlg = new AesCryptoServiceProvider();
         aesAlg.Key = key;
-        aesAlg.IV = IV;
+        aesAlg.IV = iv;
 
         var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
@@ -67,7 +64,7 @@ internal static class Aes
         using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
         using var srDecrypt = new StreamReader(csDecrypt);
 
-        plaintext = srDecrypt.ReadToEnd();
+        var plaintext = srDecrypt.ReadToEnd();
 
         return plaintext;
     }

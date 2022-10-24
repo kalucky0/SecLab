@@ -32,7 +32,7 @@ internal static class Rsa
         using var rsa = new RSACryptoServiceProvider(2048);
         try
         {
-            rsa.FromXmlString(publicKeyString.ToString());
+            rsa.FromXmlString(publicKeyString);
             var encryptedData = rsa.Encrypt(bytesToEncrypt, true);
             var base64Encrypted = Convert.ToBase64String(encryptedData);
             return base64Encrypted;
@@ -52,7 +52,7 @@ internal static class Rsa
             var resultBytes = Convert.FromBase64String(textToDecrypt);
             var decryptedBytes = rsa.Decrypt(resultBytes, true);
             var decryptedData = Encoding.UTF8.GetString(decryptedBytes);
-            return decryptedData.ToString();
+            return decryptedData;
         }
         finally
         {

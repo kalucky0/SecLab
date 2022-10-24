@@ -20,8 +20,8 @@ internal static class Rc2
 
         var input = Console.ReadLine();
 
-        byte[] encrypted = Rc2.EncryptText(input, key, iv);
-        string plaintext = Rc2.DecryptText(encrypted, key, iv);
+        byte[] encrypted = EncryptText(input, key, iv);
+        string plaintext = DecryptText(encrypted, key, iv);
 
         Program.PrintResults(encrypted, plaintext);
     }

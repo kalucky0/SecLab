@@ -28,8 +28,8 @@ internal static class Des
     /// <param name="inName">Name of input file</param>
     /// <param name="outName">Name of output file</param>
     /// <param name="desKey">The secret key to use for the symmetric algorithm</param>
-    /// <param name="desIV">The initialization vector to use for the symmetric algorithm</param>
-    internal static void EncryptData(string inName, string outName, byte[] desKey, byte[] desIV)
+    /// <param name="desIv">The initialization vector to use for the symmetric algorithm</param>
+    internal static void EncryptData(string inName, string outName, byte[] desKey, byte[] desIv)
     {
         var inputFile = new FileStream(inName, FileMode.Open, FileAccess.Read);
         var outputFile = new FileStream(outName, FileMode.OpenOrCreate, FileAccess.Write);
@@ -39,7 +39,7 @@ internal static class Des
         var length = inputFile.Length;
 
         DES des = new DESCryptoServiceProvider();
-        var encStream = new CryptoStream(outputFile, des.CreateEncryptor(desKey, desIV), CryptoStreamMode.Write);
+        var encStream = new CryptoStream(outputFile, des.CreateEncryptor(desKey, desIv), CryptoStreamMode.Write);
 
         long readLen = 0;
         while (readLen < length)
@@ -64,18 +64,17 @@ internal static class Des
     /// <param name="inName">Name of input file</param>
     /// <param name="outName">Name of output file</param>
     /// <param name="desKey">The secret key to use for the symmetric algorithm</param>
-    /// <param name="desIV">The initialization vector to use for the symmetric algorithm</param>
-    private static void DecryptData(string inName, string outName, byte[] desKey, byte[] desIV)
+    /// <param name="desIv">The initialization vector to use for the symmetric algorithm</param>
+    private static void DecryptData(string inName, string outName, byte[] desKey, byte[] desIv)
     {
         var fileInput = new FileStream(inName, FileMode.Open, FileAccess.Read);
         var fileOutput = new FileStream(outName, FileMode.OpenOrCreate, FileAccess.Write);
         fileOutput.SetLength(0);
 
         var buffer = new byte[100];
-        var length = fileInput.Length;
 
         DES des = new DESCryptoServiceProvider();
-        var encStream = new CryptoStream(fileInput, des.CreateDecryptor(desKey, desIV), CryptoStreamMode.Read);
+        var encStream = new CryptoStream(fileInput, des.CreateDecryptor(desKey, desIv), CryptoStreamMode.Read);
 
         int len;
         do
