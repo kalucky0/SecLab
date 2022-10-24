@@ -12,7 +12,8 @@ internal static class Program
             // Des.Run();
             // Aes.Run();
             // Rc2.Run();
-            Rsa.Run();
+            // Rsa.Run();
+            Md5.Run();
         }
         catch (Exception e)
         {
