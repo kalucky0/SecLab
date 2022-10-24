@@ -13,7 +13,10 @@ internal static class Program
             // Aes.Run();
             // Rc2.Run();
             // Rsa.Run();
-            Md5.Run();
+            // Md5.Run();
+            // Sha1.Run();
+            // Sha256.Run();
+            Sha512.Run();
         }
         catch (Exception e)
         {
