@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SecLab1;
+namespace SecLab;
 
 internal static class Rsa
 {

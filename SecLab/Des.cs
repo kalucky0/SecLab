@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace SecLab1;
+namespace SecLab;
 
 internal static class Des
 {

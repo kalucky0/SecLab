@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace SecLab1;
+namespace SecLab;
 
 internal static class Program
 {

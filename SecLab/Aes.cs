@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography.Xml;
 using System.Security.Cryptography;
 
-namespace SecLab1;
+namespace SecLab;
 
 internal static class Aes
 {
